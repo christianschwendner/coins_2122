@@ -2,6 +2,11 @@ import pandas as pd
 from newsapi import NewsApiClient
 
 
+# console input
+print("Bitte Datum im Format YYYYMMDD eingeben: ")
+date = str(input())
+
+
 # Init
 newsapi = NewsApiClient(api_key='ff25f8ba048b4928b4db576d9a4f614b')
 
@@ -18,6 +23,7 @@ def news_fetcher(q="bitcoin", from_param='2021-11-05', to='2021-11-07'):
 
 
 # fetch articles
+print('fetch articels')
 articles_bitcoin = news_fetcher(q="bitcoin")
 articles_ethereum = news_fetcher(q="ethereum")
 articles_dogecoin = news_fetcher(q="dogecoin")
@@ -28,6 +34,7 @@ articles_ethereum2 = news_fetcher(q="ethereum 2")
 
 
 # expand json files
+print('normalize json files')
 articles_bitcoin_df = pd.json_normalize(articles_bitcoin['articles'])
 articles_ethereum_df = pd.json_normalize(articles_ethereum['articles'])
 articles_dogecoin_df = pd.json_normalize(articles_dogecoin['articles'])
@@ -57,5 +64,9 @@ articles_list = [articles_bitcoin_df,
                 articles_ethereum2_df]
 
 
+print('concat and save dataframe')
 articles_all = pd.concat(articles_list, axis=0, ignore_index=True)
+print('arcitle fetched: ' + str(len(articles_all)))
 articles_all.to_excel("output/" + date + "articles_all.xlsx")
+
+print('Job finished.')
