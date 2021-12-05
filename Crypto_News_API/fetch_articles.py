@@ -3,8 +3,11 @@ from newsapi import NewsApiClient
 
 
 # console input
-print("Bitte Datum im Format YYYYMMDD eingeben: ")
-date = str(input())
+print("Bitte Start-Datum im Format YYYY-MM-DD eingeben: ")
+from_param = str(input())
+
+print("Bitte End-Datum im Format YYYY-MM-DD eingeben: ")
+to = str(input())
 
 
 # Init
@@ -23,14 +26,14 @@ def news_fetcher(q="bitcoin", from_param='2021-11-05', to='2021-11-07'):
 
 
 # fetch articles
-print('fetch articels')
-articles_bitcoin = news_fetcher(q="bitcoin")
-articles_ethereum = news_fetcher(q="ethereum")
-articles_dogecoin = news_fetcher(q="dogecoin")
-articles_shibainucoin = news_fetcher(q="shiba inu coin")
-articles_solana = news_fetcher(q="solana")
-articles_Chainlink = news_fetcher(q="Chainlink")
-articles_ethereum2 = news_fetcher(q="ethereum 2")
+print('fetch articles')
+articles_bitcoin = news_fetcher(q="bitcoin", from_param=from_param, to=to)
+articles_ethereum = news_fetcher(q="ethereum", from_param=from_param, to=to)
+articles_dogecoin = news_fetcher(q="dogecoin", from_param=from_param, to=to)
+articles_shibainucoin = news_fetcher(q="shiba inu coin", from_param=from_param, to=to)
+articles_solana = news_fetcher(q="solana", from_param=from_param, to=to)
+articles_Chainlink = news_fetcher(q="Chainlink", from_param=from_param, to=to)
+articles_ethereum2 = news_fetcher(q="ethereum 2", from_param=from_param, to=to)
 
 
 # expand json files
@@ -66,7 +69,7 @@ articles_list = [articles_bitcoin_df,
 
 print('concat and save dataframe')
 articles_all = pd.concat(articles_list, axis=0, ignore_index=True)
-print('arcitle fetched: ' + str(len(articles_all)))
-articles_all.to_excel("output/" + date + "articles_all.xlsx")
+print('articles fetched: ' + str(len(articles_all)))
+articles_all.to_excel("output/" + from_param + "_" + to + "_articles_all.xlsx")
 
 print('Job finished.')
